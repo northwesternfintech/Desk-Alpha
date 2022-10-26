@@ -36,8 +36,10 @@ A base strategy that is used to explain how to properly develop a strategy.
     for metric, information in updates:
       self.data[metric] = information
       
+    self.clear_orders()
     #Re-run your logic
     if self.data['price'] > 100:
       self.orders.append('BUY')
-    
+    #More example logic
+    return self.orders
     
