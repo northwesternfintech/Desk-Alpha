@@ -31,6 +31,7 @@ A base strategy that is used to explain how to properly develop a strategy.
     ```
     Will be called on every tick to update the algorithm state and output buys/sells.
     ```
+    self.ticks += 1
     #Ingest Data
     updates = zip(data.keys(), data.values())
     for metric, information in updates:
