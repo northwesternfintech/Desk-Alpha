@@ -18,7 +18,7 @@ class templateStrategy():
     self.time = time.time()
     self.orders = []
     self.ticks = 0
-    self.upwardTrend = False
+    self.trend = "Upward"
   
   #YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
   def get_data(self):
@@ -29,8 +29,10 @@ class templateStrategy():
     return self.orders
   def get_ticks(self):
     return self.ticks
-  def upward_Trending(self):
-    return self.upwardTrend
+  def get_trend(self):
+    return self.trend
+  def set_trend(self, newTrend):
+    self.trend = newTrend
     
   
 def clear_orders(self):
@@ -59,12 +61,15 @@ def update(self, data):
     #Re-run your logic
 
     if self.data['price'] > previousPrice: #if price is greater than last
-      if not self.upward_Trending():  #if stock was previously going down
+      if self.get_trend() == "Downward":  #if stock was previously going down
         self.orders.append('BUY') #buy the stock
-        
+      self.set_trend("Upward") #set new trend to upward
+      
+
     elif self.data['price'] < previousPrice: #if price is lower than last
-      if self.upward_Trending(): #if stock was previously going up
+      if self.get_trend() == "Upward": #if stock was previously going up
         self.orders.append('SELL') #sell the stock
+      self.set_trend("Downward") #set new trend to downward
     
     #More example logic
     return self.orders
