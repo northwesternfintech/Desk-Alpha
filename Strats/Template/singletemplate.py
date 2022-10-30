@@ -18,6 +18,7 @@ class templateStrategy():
     self.time = time.time()
     self.orders = []
     self.ticks = 0
+    self.state = "Up"
 #YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
 
 def get_data(self, metric):
@@ -77,20 +78,45 @@ def clear_orders(self):
     print(f"Trashing %d orders.", len(self.orders))
     self.orders = []
 
+def get_state(self):
+    """
+    Returns the current state of the algorithm.
+    """
+    return self.state
+
+def set_state(self, state):
+    """
+    Sets the current state of the algorithm.
+    """
+    self.state = state
+
 def update(self, data):
     """
     Will be called on every tick to update the algorithm state and output buys/sells.
     """
     self.ticks += 1
     #Ingest Data
+
+    old_price = self.data['price']
     updates = zip(data.keys(), data.values())
     for metric, information in updates:
       self.data[metric] = information
 
+
     self.clear_orders()
     #Re-run your logic
-    if self.data['price'] > 100:
-      self.orders.append('BUY')
+
+
+    if self.data['price'] < old_price : #If the new price is going down compared to old
+        if self.get_state() == "Up": #If state indicates we were previously going up
+             self.orders.append('SELL') #Sell
+        self.set_state("Down") # Reverse the state
+
+    elif self.data['price'] > old_price : #If the price is going down
+        if self.get_state() == "Up": #If state indicates we were going up
+            self.orders.append('BUY') #Buy
+        self.set_state("Down")  # Reverse the state by setting it to down
+
     #More example logic
     return self.orders
 
