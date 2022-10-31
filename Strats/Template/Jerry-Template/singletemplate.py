@@ -20,56 +20,22 @@ class templateStrategy():
     self.time = time.time()
     self.orders = []
     self.ticks = 0
-#YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
-def get_data(self, metric):
-    """
-    Returns the data for a given metric.
-    """
-    return self.data[metric]
-
-def set_data(self, metric, value):
-    """
-    Sets the value of a metric.
-    """
-    self.data[metric] = value
-
-def get_time(self):
-    """
-    Returns the time since the last update.
-    """
-    return self.time
-
-def set_time(self, time):
-    """
-    Sets the time since the last update.
-    """
-    self.time = time
-
-def get_ticks(self):
-    """
-    Returns the number of ticks that have passed.
-    """
-    return self.ticks
-
-def set_ticks(self, ticks):
-    """
-    Sets the number of ticks that have passed.
-    """
-    self.ticks = ticks
-
-def get_orders(self):
-    """
-    Returns the current orders.
-    """
+    self.trend = "Upward"
+  
+  #YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
+  def get_data(self):
     return self.orders
-
-def set_orders(self, orders):
-    """
-    Sets the orders to be executed.
-    """
-    self.orders = orders
-
-
+  def get_time(self):
+    return self.time
+  def get_orders(self):
+    return self.orders
+  def get_ticks(self):
+    return self.ticks
+  def get_trend(self):
+    return self.trend
+  def set_trend(self, newTrend):
+    self.trend = newTrend
+    
   
 def clear_orders(self):
     """
@@ -81,19 +47,31 @@ def clear_orders(self):
 def update(self, data):
     """
     Will be called on every tick to update the algorithm state and output buys/sells.
+    @type data: dict
+    @rtype: list
     """
     self.ticks += 1
+    previousPrice = self.data['price']
+
     #Ingest Data
     updates = zip(data.keys(), data.values())
+
     for metric, information in updates:
       self.data[metric] = information
       
     self.clear_orders()
-    if self.data['50_day_moving_average'] > self.data['200_day_moving_average']:
-        self.orders.append('BUY')
-    if self.data['50_day_moving_average'] < self.data['200_day_moving_average']:
-        self.orders.append('SELL')
-    # if self.data['price'] > 100:
-    #   self.orders.append('BUY')
+    #Re-run your logic
+
+    if self.data['price'] > previousPrice: #if price is greater than last
+      if self.get_trend() == "Downward":  #if stock was previously going down
+        self.orders.append('BUY') #buy the stock
+      self.set_trend("Upward") #set new trend to upward
+      
+
+    elif self.data['price'] < previousPrice: #if price is lower than last
+      if self.get_trend() == "Upward": #if stock was previously going up
+        self.orders.append('SELL') #sell the stock
+      self.set_trend("Downward") #set new trend to downward
+    
     #More example logic
     return self.orders
