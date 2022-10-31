@@ -6,9 +6,9 @@ import math
 #Notes: I turned self.orders into a dictionary where the key is the stock ticker and the value is buy, sell, or stay (do nothing)
 #Trend has also become a metric for each stock rather than for the entire class
 
-class templateStrategy():
+class multipleStockTemplateStrategy():
   """
-  A base strategy that is used to explain how to properly develop a strategy.
+  A base strategy that is used to explain how to properly develop a strategy for multiple stocks
   """
   
   def __init__(self, allInitStockData):
@@ -49,13 +49,11 @@ class templateStrategy():
   def set_stock_data(self, ticker, newData):
     for metric in newData:
       self.data[ticker][metric] = newData[metric] #update data
-
-  
-
   
   def update_stock(self, ticker, newData):
     """
     Updates information for one stock given new data and adds the necessary order for that stock to the orders dict
+    newData should be a dict with metrics and values only that corresponds to data for the stock with the ticker
     @type ticker: str
     @type newData: dict
     """
@@ -93,6 +91,7 @@ def clear_orders(self):
 def update(self, newAllStockData):
   """
   Will be called on every tick to update the algorithm state and output buys/sells/stays for all stocks
+  newAllStockData should be a dict with tickers as keys and values being dictionaries that have keys being our metrics
   @type newAllStockData: dict 
   @rtype: dict
   """
