@@ -4,8 +4,6 @@ import time
 import collections
 import math
 
-#Very simple single-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
-
 class templateStrategy():
   """
   A base strategy that is used to explain how to properly develop a strategy.
