@@ -19,7 +19,7 @@ class templateStrategy():
         for ticker in initDict:
             ticker['trend'] = "Upward"
         self.time = time.time()
-        self.orders = []
+        self.orders = {}
         self.ticks = 0
 
     #YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
@@ -55,45 +55,45 @@ class templateStrategy():
             self.data[ticker][metric] = data[metric]
 
 
-def set_data(self, data):
-    self.data = data
+    def set_data(self, data):
+        self.data = data
 
 
-def clear_orders(self):
-    """
-    Clears all current orders and logs relevant information.
-    """
-    print(f"Trashing %d orders.", len(self.orders))
-    self.orders = []
+    def clear_orders(self):
+        """
+        Clears all current orders and logs relevant information.
+        """
+        print(f"Trashing %d orders.", len(self.orders))
+        self.orders = {}
 
 
-def update(self, data):
-    """
-    Will be called on every tick to update the algorithm state and output buys/sells.
-    @type data: dict
-    @rtype: list
-    """
-    self.ticks += 1
-    previousPrice = self.data['price']
+    def update(self, data):
+        """
+        Will be called on every tick to update the algorithm state and output buys/sells.
+        @type data: dict
+        @rtype: list
+        """
+        self.ticks += 1
+        previousPrice = self.data['price']
 
-    #Ingest Data
-    updates = zip(data.keys(), data.values())
+        #Ingest Data
+        updates = zip(data.keys(), data.values())
 
-    for metric, information in updates:
-        self.data[metric] = information
+        for metric, information in updates:
+            self.data[metric] = information
 
-    self.clear_orders()
-    #Re-run your logic
+        self.clear_orders()
+        #Re-run your logic
 
-    if self.data['price'] > previousPrice:  #if price is greater than last
-        if self.get_trend() == "Downward":  #if stock was previously going down
-            self.orders.append('BUY')  #buy the stock
-        self.set_trend("Upward")  #set new trend to upward
+        if self.data['price'] > previousPrice:  #if price is greater than last
+            if self.get_trend() == "Downward":  #if stock was previously going down
+                self.orders.append('BUY')  #buy the stock
+            self.set_trend("Upward")  #set new trend to upward
 
-    elif self.data['price'] < previousPrice:  #if price is lower than last
-        if self.get_trend() == "Upward":  #if stock was previously going up
-            self.orders.append('SELL')  #sell the stock
-        self.set_trend("Downward")  #set new trend to downward
+        elif self.data['price'] < previousPrice:  #if price is lower than last
+            if self.get_trend() == "Upward":  #if stock was previously going up
+                self.orders.append('SELL')  #sell the stock
+            self.set_trend("Downward")  #set new trend to downward
 
-    #More example logic
-    return self.orders
+        #More example logic
+        return self.orders
