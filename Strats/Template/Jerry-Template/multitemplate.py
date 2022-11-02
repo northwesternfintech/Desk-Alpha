@@ -58,13 +58,23 @@ class templateStrategy():
         self.data = data
 
     def update_stock(self, ticker, data):
-        price_changed = False
         prev_price = self.data[ticker]['price']
         prev_trend = self.data[ticker]['trend']
         self.set_data_for_stock(ticker, data);
-
         next_price = data['price']
 
+        if(next_price > prev_price):
+            if(prev_trend == "Downward"):
+                self.orders[ticker] = "BUY"
+            self.data[ticker]['trend'] = "Upward"
+
+        elif(next_price < prev_price):
+            if(prev_trend == "Upward"):
+                self.orders[ticker] = "SELL"
+            self.data[ticker]['trend'] = "Downward"
+
+        else:
+            self.orders[ticker] = "HOLD"
 
     def clear_orders(self):
         """
