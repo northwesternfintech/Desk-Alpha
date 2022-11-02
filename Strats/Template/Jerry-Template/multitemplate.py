@@ -54,9 +54,16 @@ class templateStrategy():
         for metric in data:
             self.data[ticker][metric] = data[metric]
 
-
     def set_data(self, data):
         self.data = data
+
+    def update_stock(self, ticker, data):
+        price_changed = False
+        prev_price = self.data[ticker]['price']
+        prev_trend = self.data[ticker]['trend']
+        self.set_data_for_stock(ticker, data);
+
+        next_price = data['price']
 
 
     def clear_orders(self):
