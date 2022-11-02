@@ -58,6 +58,12 @@ class templateStrategy():
         self.data = data
 
     def update_stock(self, ticker, data):
+        """
+        Updates the data for a given stock, and adds the order that should be made to the orders dict.
+        @type ticker: str
+        @type data: dict
+        @rtype: None
+        """
         prev_price = self.data[ticker]['price']
         prev_trend = self.data[ticker]['trend']
         self.set_data_for_stock(ticker, data);
