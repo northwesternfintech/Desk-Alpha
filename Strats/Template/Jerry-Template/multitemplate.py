@@ -97,26 +97,12 @@ class templateStrategy():
         @rtype: list
         """
         self.ticks += 1
-        previousPrice = self.data['price']
-
-        #Ingest Data
-        updates = zip(data.keys(), data.values())
-
-        for metric, information in updates:
-            self.data[metric] = information
 
         self.clear_orders()
         #Re-run your logic
 
-        if self.data['price'] > previousPrice:  #if price is greater than last
-            if self.get_trend() == "Downward":  #if stock was previously going down
-                self.orders.append('BUY')  #buy the stock
-            self.set_trend("Upward")  #set new trend to upward
+        for stock in data:
+            stock_data = data[stock]
+            self.update_stock(stock, stock_data)
 
-        elif self.data['price'] < previousPrice:  #if price is lower than last
-            if self.get_trend() == "Upward":  #if stock was previously going up
-                self.orders.append('SELL')  #sell the stock
-            self.set_trend("Downward")  #set new trend to downward
-
-        #More example logic
         return self.orders
