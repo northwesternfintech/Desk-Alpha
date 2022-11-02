@@ -38,6 +38,21 @@ class templateStrategy():
     def get_data_for_stock(self, ticker):
         return self.data[ticker]
 
+    def set_data(self, data):
+        self.data = data
+
+    def set_time(self, time):
+        self.time = time
+
+    def set_orders(self, orders):
+        self.orders = orders
+
+    def set_ticks(self, ticks):
+        self.ticks = ticks
+
+    def set_data_for_stock(self, ticker, data):
+        for metric in data:
+            self.data[ticker][metric] = data[metric]
 
 
 def set_data(self, data):
