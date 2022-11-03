@@ -31,6 +31,15 @@ def get_ticks(self):
   return self.ticks
 def get_trend(self):
   return self.trend
+
+def set_data(self, new_data):
+  self.data = new_data
+def set_time(self, new_time):
+  self.time = new_time
+def set_orders(self, new_orders):
+  self.orders = new_orders
+def set_ticks(self, new_tick):
+  self.ticks = new_tick
 def set_trend(self, newTrend):
   self.trend = newTrend
 
