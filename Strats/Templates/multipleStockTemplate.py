@@ -20,7 +20,7 @@ class multipleStockTemplateStrategy():
     """
     self.data = allInitStockData
     for stock in allInitStockData:
-      stock['trend'] = "Downward" #should be this way so we buy whenever price goes up for first time
+      self.data[stock]['trend'] = "Downward" #should be this way so we buy whenever price goes up for first time
 
     self.time = time.time()
     self.orders = dict()
@@ -46,6 +46,7 @@ class multipleStockTemplateStrategy():
     self.orders = newOrders
   def set_ticks(self, newTicks):
     self.ticks = newTicks
+
   def set_stock_data(self, ticker, newData):
     for metric in newData:
       self.data[ticker][metric] = newData[metric] #update data
@@ -99,7 +100,7 @@ def update(self, newAllStockData):
   self.ticks += 1
 
   for thisStock in newAllStockData:             #run update_stock for each stock in newAllStockData
-    newStockData = newAllStockData[thisStock]
+    newStockData = newAllStockData[thisStock]   #newStockData will be a dictionary 
     self.update_stock(thisStock, newStockData)
 
   return self.orders 
