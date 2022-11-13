@@ -51,4 +51,5 @@ unordered_map<string, string> TemplateStrategy::update(unordered_map<string,stri
     for (auto & [ticker, value] : data){
         update_stock(ticker, data);
     }
+    return orders;
 }
