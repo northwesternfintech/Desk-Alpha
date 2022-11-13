@@ -34,5 +34,5 @@ class TemplateStrategy
     //Methods
     void update_stock(string ticker, unordered_map<string, string> data);
     void clear_orders();
-    unordered_map<string, string> update();
+    unordered_map<string, string> update(unordered_map<string,string> data);
 };
