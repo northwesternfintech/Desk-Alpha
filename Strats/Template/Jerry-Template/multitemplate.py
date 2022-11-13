@@ -24,7 +24,7 @@ class templateStrategy():
 
     #YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
     def get_data(self):
-        return self.orders
+        return self.data
 
     def get_time(self):
         return self.time
