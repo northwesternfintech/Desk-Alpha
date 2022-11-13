@@ -54,8 +54,6 @@ class templateStrategy():
         for metric in data:
             self.data[ticker][metric] = data[metric]
 
-    def set_data(self, data):
-        self.data = data
 
     def update_stock(self, ticker, data):
         """
