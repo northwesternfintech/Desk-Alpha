@@ -1,6 +1,7 @@
 import time
 import collections
 import math
+import statistics
 
 #Bollinger Band Template, Single Stock.
 
@@ -82,4 +83,16 @@ class bollingerStrategy():
         for metric, information in updates:
             self.data[metric] = information
         
+
         self.clear_orders()
+        moving_average = self.data['20-day moving average']
+        std_dev = self.data['20-day standard deviation']
+        upper_band = moving_average + 2*std_dev
+        lower_band = moving_average - 2*std_dev
+        if self.data['price'] > upper_band:
+            self.orders.append('SELL')
+        elif self.data['price'] < lower_band:
+            self.orders.append('BUY')
+        else:
+            self.orders.append('HOLD')
+        return self.orders
