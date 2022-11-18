@@ -66,3 +66,20 @@ class bollingerStrategy():
         Sets the orders to be executed.
         """
         self.orders = orders
+
+    def clear_orders(self):
+        """
+        Clears the orders to be executed.
+        """
+        self.orders = []
+
+    def update(self, data):
+        """
+        Updates the strategy with new information.
+        """
+        self.ticks += 1
+        updates = zip(data.keys(), data.values())
+        for metric, information in updates:
+            self.data[metric] = information
+        
+        self.clear_orders()
