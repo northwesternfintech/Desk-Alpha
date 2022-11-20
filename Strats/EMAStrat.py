@@ -58,22 +58,25 @@ def update(self, newPrice):
     @type data: dict
     @rtype: list
     """
-    self.ticks += 1
+    self.days += 1
       
     self.clear_orders()
-    #Re-run your logic
-    self.EMA50d = calculate_ema(50, newPrice, self.EMA50d)
-    self.EMA200d = calculate_ema(200, newPrice, self.EMA200d)
-
-    if self.EMA50d<self.EMA200d:
-      self.orders.append("BUY")
-    elif self.EMA50>self.EMA200d:
-      self.orders.append("SELL")
+    if self.days<50:
+      self.EMA50d = calculate_ema(self.days, newPrice, self.EMA50d)
+      self.EMA200d = calculate_ema(self.days, newPrice, self.EMA200d)
+    elif self.days<200:
+      self.EMA50d = calculate_ema(50, newPrice, self.EMA50d)
+      self.EMA200d = calculate_ema(self.days, newPrice, self.EMA200d)
     else:
-      self.orders.append("HOLD")
+      self.EMA50d = calculate_ema(self.days, newPrice, self.EMA50d)
+      self.EMA200d = calculate_ema(self.days, newPrice, self.EMA200d)
 
-    
-    
-    #More example logic
+      if self.EMA50d<self.EMA200d:
+        self.orders.append("BUY")
+      elif self.EMA50>self.EMA200d:
+        self.orders.append("SELL")
+      else:
+        self.orders.append("HOLD")
+
     return self.orders
     
