@@ -85,14 +85,21 @@ class bollingerStrategy():
         
 
         self.clear_orders()
-        moving_average = self.data['20-day moving average']
-        std_dev = self.data['20-day standard deviation']
-        upper_band = moving_average + 2*std_dev
-        lower_band = moving_average - 2*std_dev
+        moving_average = 0
+        for price in self.data['prices'][-20:]:
+            moving_average += price
+        moving_average /= 20
+        standard_deviation = 0
+        for price in self.data['prices'][-20:]:
+            standard_deviation += (price - moving_average)**2
+        standard_deviation = math.sqrt(standard_deviation/20)
+    
+        upper_band = moving_average + 2*standard_deviation
+        lower_band = moving_average - 2*standard_deviation
         if self.data['price'] > upper_band:
             self.orders.append('SELL')
         elif self.data['price'] < lower_band:
             self.orders.append('BUY')
-        else:
-            self.orders.append('HOLD')
-        return self.orders
+        #else:
+        #    self.orders.append('HOLD')
+        #return self.orders
