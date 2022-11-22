@@ -83,14 +83,14 @@ class EMASingleStock():
     
     #Calculate EMA based on how many days are currently updated
     if self.days<50:
-      self.EMA50d = calculate_ema(self.days, newPrice, self.EMA50d)
-      self.EMA200d = calculate_ema(self.days, newPrice, self.EMA200d)
+      self.EMA50d = self.calculate_ema(self.days, newPrice, self.EMA50d)
+      self.EMA200d = self.calculate_ema(self.days, newPrice, self.EMA200d)
     elif self.days<200:
-      self.EMA50d = calculate_ema(50, newPrice, self.EMA50d)
-      self.EMA200d = calculate_ema(self.days, newPrice, self.EMA200d)
+      self.EMA50d = self.calculate_ema(50, newPrice, self.EMA50d)
+      self.EMA200d = self.calculate_ema(self.days, newPrice, self.EMA200d)
     else:
-      self.EMA50d = calculate_ema(50, newPrice, self.EMA50d)
-      self.EMA200d = calculate_ema(200, newPrice, self.EMA200d)
+      self.EMA50d = self.calculate_ema(50, newPrice, self.EMA50d)
+      self.EMA200d = self.calculate_ema(200, newPrice, self.EMA200d)
 
 
     if self.EMA50d>self.EMA200d: #If our short signal is higher than our long signal, we expect future rises
