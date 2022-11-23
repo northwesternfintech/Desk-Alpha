@@ -67,8 +67,7 @@ class EMASingleStock():
     @rtype: float
     """
     mult = 2/(days+1)
-    new_ema = newPrice*mult
-    new_ema += prev_ema*(1-mult)
+    new_ema = newPrice*mult + prev_ema*(1-mult)
     return new_ema
     
   def update(self, newPrice):
@@ -103,7 +102,5 @@ class EMASingleStock():
         self.orders.append("SELL")                   #We think prices are high now and will lower in the future, so we sell
       self.shortOverLong = False
     
-    if len(self.orders) == 0:      #Hold if no order is in orders
-      self.orders.append("HOLD")
 
     return self.orders
