@@ -36,7 +36,7 @@ def get_orders(self):
 def get_ticks(self):
   return self.ticks
 def get_stock_data(self, ticker):
-  return self[ticker]
+  return self.data[ticker]
 
 def set_data(self, new_data):
   self.data = new_data
@@ -48,7 +48,7 @@ def set_ticks(self, new_tick):
   self.ticks = new_tick
 def set_stock_data(self, ticker, single_stock_data):
   for metric in single_stock_data:
-    self[ticker][metric] = single_stock_data[metric]
+    self.data[ticker][metric] = single_stock_data[metric]
 
 
 
