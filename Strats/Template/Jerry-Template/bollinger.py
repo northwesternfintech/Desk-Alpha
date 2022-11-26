@@ -93,7 +93,7 @@ class bollingerStrategy():
         for price in self.data['prices'][-20:]:
             standard_deviation += (price - moving_average)**2
         standard_deviation = math.sqrt(standard_deviation/20)
-        
+
         upper_band = moving_average + 2*standard_deviation
         lower_band = moving_average - 2*standard_deviation
         if self.data['price'] > upper_band:
