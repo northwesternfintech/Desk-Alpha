@@ -1,4 +1,3 @@
-from signal import Sigmasks
 import collections
 import math
 #Very simple single-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
