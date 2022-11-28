@@ -7,15 +7,15 @@ class RSI_Oscillator():
 
     """
     Inputs required: 
-        stock_data, a dictionary containing the following:
+        stock_data, a dictionary another dictionary in the format:
+            {ticker : {metric : value}}
+        
+    metrics needed in stock_data:
+        - "price", last closing price
+        - "L14", lowest price in the past 14 trading sessions
+        - "H14", highest price in the past 14 trading sessions
+    
 
-            L14: lowest price of the past 14 trading sessions
-            H14: highest price of the past 14 trading sessions
-            price: last closing price
-
-    class variables:
-        RSI
-        price
 
     """
 
@@ -78,8 +78,11 @@ class RSI_Oscillator():
 
 
 
-    #returns a value from 0-1 representing the RSI
+    
     def calculate_rsi(self, L14, H14, price):
+        """
+        Calculates RSI for a given stock given L14, H14, and price
+        """
         rsi = (price-L14)/(H14-L14)
         return rsi
 
@@ -97,6 +100,9 @@ class RSI_Oscillator():
         
 
     def update_stock(self, ticker):
+        """
+        updates stock logic for a given stock
+        """
         self.clear_orders_stock(ticker)
         ticker_data = self.data[ticker]
 
@@ -109,6 +115,10 @@ class RSI_Oscillator():
 
 
     def update(self, data):
+        """
+        updates stock logic for all stocks.
+        returns a dictionary of orders in the format {ticker : list_of_orders}
+        """
         self.ticks += 1
         for ticker, ticker_data in data:
             self.data[ticker] = ticker_data
