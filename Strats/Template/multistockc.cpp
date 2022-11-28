@@ -4,7 +4,7 @@
 #include <iostream>;
 #include string;
 
-class templateStrategy(){
+class MultiStock{
   """
   A base strategy that is used to explain how to properly develop a strategy.
   """
@@ -16,7 +16,7 @@ class templateStrategy(){
 
   int ticks = 0;
   
-  templateStrategy(std::unordered_map<std::string, std::unordered_map<std::string, std::string>> stock_data){
+  MultiStock(std::unordered_map<std::string, std::unordered_map<std::string, std::string>> stock_data){
     """
     Metrics - the actual information you need to track. If this is a specific algorithm, you can hard-code it and remove that argument.
     Initvalues - the initial values of your arguments. 
@@ -39,26 +39,26 @@ class templateStrategy(){
     return this.data;
   }
 
-  std::unordered_map get_data_ticker(self, ticker){
+  std::unordered_map get_data_ticker(std::stringticker){
     return this.data[ticker];
   }
 
  
-  std::vector<std::string>> get_orders(ticker){
+  std::vector<std::string>> get_orders(std::string ticker){
     return this.orders[ticker];
 
   }
 
 
-  int get_ticks(ticker){
+  int get_ticks(){
     return this.ticks;
   }
 
-  std::vector<std::string>> get_trend(ticker){
+  std::vector<std::string>> get_trend(std::string ticker){
     return this.trend[ticker];
   }
 
-  void set_trend(ticker, newTrend){
+  void set_trend(std::string ticker, std::string newTrend){
     this.trend[ticker] = newTrend;
   }
   
