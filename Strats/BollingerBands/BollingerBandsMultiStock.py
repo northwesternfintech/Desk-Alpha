@@ -1,4 +1,3 @@
-from signal import Sigmasks
 import collections
 import math
 
@@ -10,8 +9,8 @@ class BollingerBandsMultiStock():
     """
     def __init__(self, tickers, dayConst = 60, MAL = 20, bandSD = 2, clearDataLen = 10000):
         """
-        Metrics - the actual information you need to track. If this is a specific algorithm, you can hard-code it and remove that argument.
-        Initvalues - the initial values of your arguments. 
+        Constructor for multi stock Bollinger Bands algo. If the stock price exceeds the upper band, add a sell order, 
+        and if it goes below the lower band, add a buy order.
         """
         #general data dict, not used here, but keeping in case needed for revisions later
         self.data = {}
