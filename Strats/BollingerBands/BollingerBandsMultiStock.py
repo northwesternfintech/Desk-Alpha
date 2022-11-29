@@ -4,9 +4,7 @@ import math
 #Very simple single-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
 
 class BollingerBandsMultiStock():
-    """
-    A base strategy that is used to explain how to properly develop a strategy.
-    """
+    
     def __init__(self, tickers, dayConst = 60, MAL = 20, bandSD = 2, clearDataLen = 10000):
         """
         Constructor for multi stock Bollinger Bands algo. If the stock price exceeds the upper band, add a sell order, 
