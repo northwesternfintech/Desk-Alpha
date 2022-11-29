@@ -56,7 +56,7 @@ class BollingerBandsSingleStock:
         """
         Update method called every tick. Just takes in the stock's price at the time of the tick
         """
-        self.ticks+=1
+        
         newDay = False
         #if the tick we're at is equal to our defined time for when the next "day" starts, make note of the fact that we're
         #on a new "day" and update the time of the next "day" start.
@@ -75,7 +75,7 @@ class BollingerBandsSingleStock:
         if self.dayData[0] == -1:
             self.dayData[0] = price
         self.dayData[1] = max(self.dayData[1], price)
-        self.dayData[2] = min(self.dayData[1], price)
+        self.dayData[2] = min(self.dayData[2], price)
         self.dayData[3] = price
 
 
@@ -104,3 +104,4 @@ class BollingerBandsSingleStock:
 
             if len(self.orders) > self.clearDataLen:
                 self.orders.pop(0)
+        self.ticks+=1
