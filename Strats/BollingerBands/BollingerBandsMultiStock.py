@@ -1,8 +1,6 @@
 import collections
 import math
 
-#Very simple single-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
-
 class BollingerBandsMultiStock():
     
     def __init__(self, tickers, dayConst = 60, MAL = 20, bandSD = 2, clearDataLen = 10000):
