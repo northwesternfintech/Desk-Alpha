@@ -1,25 +1,43 @@
 import time
 import collections
 import math
+from numpy import inf
 
-#Very simple single-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
 
-class templateStrategy():
+# This is the data structure for the stock's daily data; we will append each day's dictionary data to the self.data field (a list)
+stock_data_day = {
+  "Ticker": "APPL",
+  "Opening Price": 100,
+  "Closing Price": 200,
+  "Lowest Price": 50,
+  "Highest Price": 300,
+  "Volume": 100000000
+}
+
+
+
+
+class StochasticOscillator():
   """
-  A base strategy that is used to explain how to properly develop a strategy.
+  Relative strength strategies use the characteristics of the rest of the market or asset class to analyze a single stock. 
+  The most famous example is the Relative Strength Index, which will be a future algorithm. For now, we will be using the Stochastic Oscillator 
+  - a strategy that is designed to correspond with the over/under valuation of an asset - usually a high stochastic reading would indicate a sell, 
+  and vice versa. It is up to you guys to test and implement those signals. Note that your trading sessions are completely up to you to decide. 
   """
   
-  def __init__(self, metrics, initvalues):
+  def __init__(self):
     """
     Metrics - the actual information you need to track. If this is a specific algorithm, you can hard-code it and remove that argument.
     Initvalues - the initial values of your arguments. 
     """
-    self.data = zip(metrics, initvalues)
+    self.data = []
     self.time = time.time()
     self.orders = []
     self.ticks = 0
-    self.trend = "upwards"
-#YOU WILL WANT A FULL SUITE OF SETTER AND GETTER METHODS!
+    self.trend = "downwards"
+    self.L14 = []
+    self.H14 = []
+    self.stochastic_oscillator = 100
   
 def get_data(self):
   return self.data
@@ -32,6 +50,8 @@ def get_ticks(self):
 def get_trend(self):
   return self.trend
 
+def add_data(self, new_data):
+  self.data.append(new_data)
 def set_data(self, new_data):
   self.data = new_data
 def set_time(self, new_time):
@@ -49,36 +69,40 @@ def clear_orders(self):
     """
     Clears all current orders and logs relevant information.
     """
-    print(f"Trashing %d orders.", len(self.orders))
+    print(f"Trashing %d all orders", len(self.orders))
     self.orders = []
     
 
 
-def update(self, data):
+def update(self, newdata):
     """
     Will be called on every tick to update the algorithm state and output buys/sells.
     """
-    self.ticks += 1
-    prev_price = self.data["price"]
-
-    #Ingest Data
-    updates = zip(data.keys(), data.values())
-
-    for metric, information in updates:
-      self.data[metric] = information
     self.clear_orders()
+    self.ticks += 1
+    self.add_data(newdata)
 
-    #Re-run your logic
-    if self.data['price'] > prev_price:
-      if self.get_trend() == "downwards":
-        self.orders.append('BUY')
-        self.set_trend("upwards")
+    C = newdata["Closing Price"]
 
-    elif self.data['price'] < prev_price:
-      if self.get_trend() == "upwards":
-        self.orders.append("SELL")
-        self.set_trend("downwards")
-
-    #More example logic
-    return self.orders
+    self.L14.append(newdata["Losest Price"])
+    if len(self.L14) > 14:
+      self.L14.pop(0)
     
+    self.H14.append(newdata["Highest Price"])
+    if len(self.H14) > 14:
+      self.H14.pop(0)
+
+    L14 = min(self.L14)
+    H14 = max(self.H14)
+
+    self.stochastic_oscillator = (C - L14) / (H14 - L14) * 100
+
+    if self.stochastic_oscillator < 0.2:
+      self.orders.append("BUY")
+    if self.stochastic_oscillator > 0.8:
+      self.orders.append("SELL")
+
+    return self.orders
+
+
+
