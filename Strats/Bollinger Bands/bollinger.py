@@ -6,7 +6,7 @@ import statistics
 #Bollinger Band Template, Single Stock.
 
 
-class bollingerStrategy():
+class bollinger_strategy():
     """
     A strategy using a simple moving average, as well as two bands of two standard deviations +- the moving average.
     """
