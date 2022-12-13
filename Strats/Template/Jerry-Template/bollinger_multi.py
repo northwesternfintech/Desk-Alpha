@@ -32,57 +32,57 @@ class bollinger_multi():
         #how many days to use for moving average
         self.days = days
 
-        def clear_orders(self, ticker):
-            """
-            Clears the orders to be executed.
-            """
-            self.orders[ticker] = []
-        
-        def calcStdDev(self, ticker):
-            """
-            Calculates the standard deviation of the data
-            """
+    def clear_orders(self, ticker):
+        """
+        Clears the orders to be executed.
+        """
+        self.orders[ticker] = []
+    
+    def calcStdDev(self, ticker):
+        """
+        Calculates the standard deviation of the data
+        """
+        mean = sum(self.MAdict[ticker])/self.days
+        total = 0.0
+        for price in self.MAdict[ticker]:
+            total += (price - mean)**2
+        return math.sqrt(total/self.days)
+    
+    def update(self,ticker,price):
+        """
+        Updates the strategy with new information.
+        """
+        #update the day data
+        if self.dayData[ticker][0] == -1:
+            self.dayData[ticker][0] = price
+        self.dayData[ticker][1] = max(self.dayData[ticker][1], price)
+        self.dayData[ticker][2] = min(self.dayData[ticker][2], price)
+        self.dayData[ticker][3] = price
+
+        if len(self.MAdict[ticker]) > self.days:
+            self.MAdict[ticker].pop(0)
+        if len(self.MAdict[ticker]) == self.days:
+            stdev = self.calcStdDev(ticker)
             mean = sum(self.MAdict[ticker])/self.days
-            total = 0.0
-            for price in self.MAdict[ticker]:
-                total += (price - mean)**2
-            return math.sqrt(total/self.days)
-        
-        def update(self,ticker,price):
-            """
-            Updates the strategy with new information.
-            """
-            #update the day data
-            if self.dayData[ticker][0] == -1:
-                self.dayData[ticker][0] = price
-            self.dayData[ticker][1] = max(self.dayData[ticker][1], price)
-            self.dayData[ticker][2] = min(self.dayData[ticker][2], price)
-            self.dayData[ticker][3] = price
 
-            if len(self.MAdict[ticker]) > self.days:
-                self.MAdict[ticker].pop(0)
-            if len(self.MAdict[ticker]) == self.days:
-                stdev = self.calcStdDev(ticker)
-                mean = sum(self.MAdict[ticker])/self.days
+            lowerBand = mean - self.stdevs*stdev
+            upperBand = mean + self.stdevs*stdev
 
-                lowerBand = mean - self.stdevs*stdev
-                upperBand = mean + self.stdevs*stdev
+            self.bbs[ticker][0] = upperBand
+            self.bbs[ticker][1] = lowerBand
 
-                self.bbs[ticker][0] = upperBand
-                self.bbs[ticker][1] = lowerBand
+            if price > upperBand:
+                self.orders[ticker].append('SELL')
+            elif price < lowerBand:
+                self.orders[ticker].append('BUY')
+    
 
-                if price > upperBand:
-                    self.orders[ticker].append('SELL')
-                elif price < lowerBand:
-                    self.orders[ticker].append('BUY')
-        
-
-        def updateAll(self, newData):
-            """
-            calls update on all tickers
-            """
-            for ticker,price in newData.items():
-                self.update(ticker, price)
-            self.ticks += 1
+    def updateAll(self, newData):
+        """
+        calls update on all tickers
+        """
+        for ticker,price in newData.items():
+            self.update(ticker, price)
+        self.ticks += 1
 
 
