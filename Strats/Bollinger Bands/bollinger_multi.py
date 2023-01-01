@@ -3,7 +3,7 @@ import time
 
 
 class bollinger_multi:
-    def __init__(self, tickers, days, stdDevs, MAcalc):
+    def __init__(self, **kwargs):
         """
         Constructor for Bollinger Bands. If price goes above the upper band, add a sell order, if price goes below the lower band, add a buy order.
         """
@@ -18,7 +18,7 @@ class bollinger_multi:
         self.MAdict = {}
         # bollinger bands, ticker : [upper, lower]
         self.bbs = {}
-        for ticker in tickers:
+        for ticker in kwargs["tickers"]:
             self.data[ticker] = []
             self.orders[ticker] = []
             self.dayData[ticker] = [-1, -1, math.inf, -1]
@@ -26,10 +26,10 @@ class bollinger_multi:
             self.bbs[ticker] = [0, 0]
 
         # how many standard deviations to use
-        self.stdevs = stdDevs
+        self.stdevs = kwargs["stdDevs"]
 
         # how many days to use for moving average
-        self.days = days
+        self.days = kwargs["days"]
 
     def clear_orders(self, ticker):
         """

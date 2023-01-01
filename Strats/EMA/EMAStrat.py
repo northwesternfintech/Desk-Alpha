@@ -21,20 +21,20 @@ class EMASingleStock():
     self.days = 0
     self.shortOverLong = False
   
-  def __init__(self, price, EMA200d, EMA50d):
+  def __init__(self, **kwargs):
     """
     Version of init if we already have values for EMA200d, EMA50d, and price
     @type price: float
     @type EMA200d: float
     @type EMA50d: float
     """
-    self.price = price
+    self.price = kwargs["price"]
     self.time = time.time()
     self.orders = []
-    self.EMA200d = EMA200d
-    self.EMA50d = EMA50d
+    self.EMA200d = kwargs["EMA200d"]
+    self.EMA50d = kwargs["EMA50d"]
     self.days = 201
-    self.shortOverLong = EMA50d>EMA200d
+    self.shortOverLong = self.EMA50d>self.EMA200d
   
   #these are probably just here for template for multi-stock. for one stock can just use self.x
   def get_price(self):
