@@ -69,7 +69,7 @@ class BollingerBandsMultiStock:
             newDay = True
 
         for ticker, newPrice in newData.items():
-            self.update(ticker, newPrice, newDay)
+            self.update(ticker=ticker, newPrice=newPrice, newDay=newDay)
         self.ticks += 1
         # print("Typical Prices:", self.typicalPrices)
         # print("Bands:", self.bands)
