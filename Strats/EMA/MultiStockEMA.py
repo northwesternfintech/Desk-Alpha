@@ -81,7 +81,7 @@ class EMAMultiStock():
     #Update each stock
     for ticker in self.data:
       self.data[ticker]["days"] += 1
-      
+
       if self.data[ticker]["days"]<50:
         self.data[ticker]["EMA50d"] = self.calculate_ema(self.data[ticker]["days"], newPrices[ticker], self.data[ticker]["EMA50d"])
         self.data[ticker]["EMA200d"] = self.calculate_ema(self.data[ticker]["days"], newPrices[ticker], self.data[ticker]["EMA200d"])
@@ -95,12 +95,12 @@ class EMAMultiStock():
       if self.data[ticker]["EMA50d"]>self.data[ticker]["EMA200d"]: #If our short signal is higher than our long signal, we expect future rises
         if not(self.data[ticker]["shortOverLong"]) and self.data[ticker]["days"]>250: #When short goes from under long signal to over long signal
           self.orders[ticker] = "BUY"               #We think prices are low now and will rise in the future, so we buy
-        self.shortOverLong = True
+        self.data[ticker]["shortOverLong"] = True
 
       elif self.data[ticker]["EMA50"]<=self.data[ticker]["EMA200d"]: #If our short signal is lower than our long signal, we expect future dips
         if self.data[ticker]["shortOverLong"] and self.data[ticker]["days"]>250:       #When short goes from over long signal to under long signal
           self.orders[ticker] = "SELL"                   #We think prices are high now and will lower in the future, so we sell
-        self.shortOverLong = False
+        self.data[ticker]["shortOverLong"] = False
     
 
     return self.orders
