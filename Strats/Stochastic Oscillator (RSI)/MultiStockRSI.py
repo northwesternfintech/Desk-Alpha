@@ -51,8 +51,6 @@ def get_orders(self):
   return self.orders
 def get_ticks(self):
   return self.ticks
-def get_trend(self):
-  return self.trend
 
 def add_data(self, new_data):
   self.data.append(new_data)
@@ -63,9 +61,7 @@ def set_time(self, new_time):
 def set_orders(self, new_orders):
   self.orders = new_orders
 def set_ticks(self, new_tick):
-  self.ticks = new_tick
-def set_trend(self, newTrend):
-  self.trend = newTrend
+  self.ticks = new_tickr
 
 
 
@@ -90,7 +86,7 @@ def calculate_stochastic_oscillator(self, L14, H14, price):
 def update_stock(self, newdata):
     """
     Will be called on every tick to update the algorithm state and output buys/sells.
-    """
+    ""
     ticker = newdata["Ticker"]
     self.clear_orders_stock(ticker)
     self.data[ticker] = newdata
