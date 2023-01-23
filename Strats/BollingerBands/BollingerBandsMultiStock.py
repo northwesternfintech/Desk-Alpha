@@ -84,12 +84,12 @@ class BollingerBandsMultiStock:
         "ticker": string, the ticker of the stock we're updating
         "price": float, the price of the stock at the time of the tick
         """
+        ticker = kwargs["ticker"]
+        price = kwargs["newPrice"]
         if kwargs["newDay"]:
             # handle all new day management stuff
             # if we're at a new day, add our current day's data to TP and reset the dayData
             # print(ticker, self.dayData[ticker])
-            ticker = kwargs["ticker"]
-            price = kwargs["price"]
             self.typicalPrices[ticker].append(sum(self.dayData[ticker]) / 4)
             self.dayData[ticker] = [-1, price, price, price]
 
@@ -127,6 +127,8 @@ class BollingerBandsMultiStock:
                 self.orders[ticker].pop(0)
 
 
+BB = BollingerBandsMultiStock(**{"tickers": ["A", "B", "C"], "dayConst": 60, "MAL": 20, "bandSD": 2, "clearDataLen": 10000})
+BB.update({"A": 3.0, "B": 5.0, "C": 7.0})
 """
 BB.update_all({"A": 4.0, "B": 6.0, "C": 8.0})
 BB.update_all({"A": 2.0, "B": 16, "C": 7})
