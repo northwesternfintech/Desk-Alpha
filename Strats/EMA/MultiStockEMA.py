@@ -10,13 +10,13 @@ class EMAMultiStock():
   Multi-stock template for overlapping EMA strategy
   """
   
-  def __init__(self, allStockTickers):
+  def __init__(self, **kwargs):
     """
     Version of init if we have no previous data
     @type allStockTickers: list
     """
     self.data = defaultdict({})
-    for stock in allStockTickers:
+    for stock in kwargs["tickers"]:
       self.data[stock]["price"] = 0
       self.data[stock]["time"] = time.time()
       self.data[stock]["EMA200d"] = 0
