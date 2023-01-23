@@ -95,3 +95,4 @@ def update_all(self, new_stocksdata):
     #More example logic
     return self.orders
     
+
