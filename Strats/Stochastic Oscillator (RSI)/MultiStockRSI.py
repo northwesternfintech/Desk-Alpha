@@ -86,7 +86,7 @@ def calculate_stochastic_oscillator(self, L14, H14, price):
 def update_stock(self, newdata):
     """
     Will be called on every tick to update the algorithm state and output buys/sells.
-    """s
+    """
     ticker = newdata["Ticker"]
     self.clear_orders_stock(ticker)
     self.data[ticker] = newdata
