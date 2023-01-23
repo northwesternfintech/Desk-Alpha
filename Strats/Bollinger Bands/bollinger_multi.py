@@ -47,7 +47,7 @@ class bollinger_multi:
             total += (price - mean) ** 2
         return math.sqrt(total / self.days)
 
-    def update(self, ticker, price):
+    def update_single(self, ticker, price):
         """
         Updates the strategy with new information.
         """
@@ -75,10 +75,10 @@ class bollinger_multi:
             elif price < lowerBand:
                 self.orders[ticker].append("BUY")
 
-    def updateAll(self, newData):
+    def update(self, newData):
         """
         calls update on all tickers
         """
         for ticker, price in newData.items():
-            self.update(ticker, price)
+            self.update_single(ticker, price)
         self.ticks += 1

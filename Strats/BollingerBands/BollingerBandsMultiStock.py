@@ -127,7 +127,7 @@ class BollingerBandsMultiStock:
                 self.orders[ticker].pop(0)
 
 
-"""BB = BollingerBandsMultiStock(["A", "B", "C"], 4, 4, 2, 100)
+"""
 BB.update_all({"A": 4.0, "B": 6.0, "C": 8.0})
 BB.update_all({"A": 2.0, "B": 16, "C": 7})
 BB.update_all({"A": 12, "B": 9, "C": 11})

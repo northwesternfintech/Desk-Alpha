@@ -1,6 +1,7 @@
 import time
 import collections
 import math
+from collections import defaultdict
 
 #Single-stock template for EMA strategy
 
@@ -14,7 +15,7 @@ class EMAMultiStock():
     Version of init if we have no previous data
     @type allStockTickers: list
     """
-    self.data = {}
+    self.data = defaultdict({})
     for stock in allStockTickers:
       self.data[stock]["price"] = 0
       self.data[stock]["time"] = time.time()
