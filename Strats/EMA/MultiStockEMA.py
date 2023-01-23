@@ -26,31 +26,40 @@ class EMAMultiStock():
     
   def set_price(self,ticker,newPrice):
     self.data[ticker]["price"] = newPrice
+
   def set_time(self,ticker,newTime):
     self.data[ticker]["time"] = newTime
+
   def set_ticks(self,ticker,newTicks):
     self.data[ticker]["ticks"] = newTicks
+
   def set_EMA50d(self,ticker,newEMA50d):
     self.data[ticker]["EMA50d"] = newEMA50d
+
   def set_EMA50d(self,ticker,newEMA200d):
     self.data[ticker]["EMA200d"] = newEMA200d
+
   def set_days(self,ticker,newDays):
     self.data[ticker]["days"] = newDays
 
   def get_price(self,ticker):
     return self.data[ticker]["price"]
+
   def get_time(self,ticker):
     return self.data[ticker]["time"]
+
   def get_ticks(self,ticker):
     return self.data[ticker]["ticks"]
+
   def get_EMA50d(self,ticker):
     return self.data[ticker]["EMA50d"]
+
   def get_EMA50d(self,ticker):
     return self.data[ticker]["EMA200d"]
+
   def get_days(self,ticker):
     return self.data[ticker]["days"]
   
-
   def clear_orders(self):
     """
     Clears all current orders and logs relevant information.
@@ -69,38 +78,35 @@ class EMAMultiStock():
     new_ema = newPrice*mult + prev_ema*(1-mult)
     return new_ema
     
-  def update(self, newPrices):
+  def update(self, **kwargs):
     """
     Will be called on every tick to update the algorithm state and output buys/sells.
-    @type newPrices: dict
+    kwargs should be a dict with keys being tickers and values being the associated new price
+    @type kwargs: dict
     @rtype: dict
     """
-    #Clear orders
     self.clear_orders()
-
-    #Update each stock
-    for ticker in self.data:
+    for ticker in kwargs:
+      newPrice = kwargs[ticker]
       self.data[ticker]["days"] += 1
-
+      days = self.data[ticker]["days"]
       if self.data[ticker]["days"]<50:
-        self.data[ticker]["EMA50d"] = self.calculate_ema(self.data[ticker]["days"], newPrices[ticker], self.data[ticker]["EMA50d"])
-        self.data[ticker]["EMA200d"] = self.calculate_ema(self.data[ticker]["days"], newPrices[ticker], self.data[ticker]["EMA200d"])
+        self.data[ticker]["EMA50d"] = self.calculate_ema(days, newPrice, self.data[ticker]["EMA50d"])
+        self.data[ticker]["EMA200d"] = self.calculate_ema(days, newPrice, self.data[ticker]["EMA200d"])
       elif self.data[ticker]["days"]<200:
-        self.data[ticker]["EMA50d"] = self.calculate_ema(50, newPrices[ticker], self.data[ticker]["EMA50d"])
-        self.data[ticker]["EMA200d"] = self.calculate_ema(self.data[ticker]["days"], newPrices[ticker], self.data[ticker]["EMA200d"])
+        self.data[ticker]["EMA50d"] = self.calculate_ema(50, newPrice, self.data[ticker]["EMA50d"])
+        self.data[ticker]["EMA200d"] = self.calculate_ema(days, newPrice, self.data[ticker]["EMA200d"])
       else:
-        self.data[ticker]["EMA50d"] = self.calculate_ema(50, newPrices[ticker], self.data[ticker]["EMA50d"])
-        self.data[ticker]["EMA200d"] = self.calculate_ema(200, newPrices[ticker], self.data[ticker]["EMA200d"])
+        self.data[ticker]["EMA50d"] = self.calculate_ema(50, newPrice, self.data[ticker]["EMA50d"])
+        self.data[ticker]["EMA200d"] = self.calculate_ema(200, newPrice, self.data[ticker]["EMA200d"])
 
-      if self.data[ticker]["EMA50d"]>self.data[ticker]["EMA200d"]: #If our short signal is higher than our long signal, we expect future rises
-        if not(self.data[ticker]["shortOverLong"]) and self.data[ticker]["days"]>250: #When short goes from under long signal to over long signal
-          self.orders[ticker] = "BUY"               #We think prices are low now and will rise in the future, so we buy
+      if self.data[ticker]["EMA50d"]>self.data[ticker]["EMA200d"]: 
+        if not(self.data[ticker]["shortOverLong"]) and self.data[ticker]["days"]>250: #Buy when short signal rises above long signal
+          self.orders[ticker] = "BUY"               
         self.data[ticker]["shortOverLong"] = True
-
-      elif self.data[ticker]["EMA50"]<=self.data[ticker]["EMA200d"]: #If our short signal is lower than our long signal, we expect future dips
-        if self.data[ticker]["shortOverLong"] and self.data[ticker]["days"]>250:       #When short goes from over long signal to under long signal
-          self.orders[ticker] = "SELL"                   #We think prices are high now and will lower in the future, so we sell
+      elif self.data[ticker]["EMA50"]<=self.data[ticker]["EMA200d"]: 
+        if self.data[ticker]["shortOverLong"] and self.data[ticker]["days"]>250: #Sell when short signal dips below long signal
+          self.orders[ticker] = "SELL"                   
         self.data[ticker]["shortOverLong"] = False
-    
 
     return self.orders
