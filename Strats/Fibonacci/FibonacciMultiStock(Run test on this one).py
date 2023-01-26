@@ -3,11 +3,13 @@ import collections
 import math
 
 #Very simple multi-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
+#link to doc https://docs.google.com/document/d/1Qvy-NmDBG4AtyZcQF_HHJbdmbFGmQmQc4SMPy0xyNNI/edit#
 class FibonacciMultiStock():
     def __init__(self, scope = 900, ordersWhenHitsBand = 1, **kwargs):
-        #How many ticks back we should look when creating retracement
+        # example: f = FibonacciMultiStock(10, 1, **{"tickers": ["A", "B", "C"]})
+        # how many ticks back we should look when creating retracement
         self.scope = scope
-        #how many orders we'd like to put in when the price bounces off a band
+        # how many orders we'd like to put in when the price bounces off a band
         self.ordersWhenHitsBand = ordersWhenHitsBand
         # general data dict, not used here, but keeping in case needed for revisions later
         self.data = {}
@@ -113,7 +115,10 @@ class FibonacciMultiStock():
         return self.orders
         
 
-    def updateAll(self, newData):
+    def update(self, newData):
+        # Input needs ticker and price
+        # example: f.update({"A": 3.0, "B": 5.0, "C": 8.0})
+
         if self.ticks == self.nextRetracement:
                 self.nextRetracement = self.ticks + self.scope
                 if not self.activeRetracement: self.activeRetracement = True
@@ -125,21 +130,21 @@ class FibonacciMultiStock():
         print(self.ticks)
 
 """
-f = FibonacciMultiStock(10, 1, **{"tickers": ["A", "B", "C"], "dayConst": 60, "MAL": 20, "bandSD": 2, "clearDataLen": 10000})
-f.updateAll({"A": 3.0, "B": 5.0, "C": 8.0})
-f.updateAll({"A": 4.0, "B": 6.0, "C": 9.0})
-f.updateAll({"A": 5.0, "B": 7.0, "C": 8.0})
-f.updateAll({"A": 6.0, "B": 8.0, "C": 8.0})
-f.updateAll({"A": 7.0, "B": 9.0, "C": 8.0})
-f.updateAll({"A": 8.0, "B": 10.0, "C": 8.0})
-f.updateAll({"A": 9.0, "B": 11.0, "C": 8.0})
-f.updateAll({"A": 8.0, "B": 10.0, "C": 8.0})
-f.updateAll({"A": 7.0, "B": 9.0, "C": 8.0})
-f.updateAll({"A": 6.0, "B": 8.0, "C": 8.0})
-f.updateAll({"A": 5.0, "B": 7.0, "C": 8.0})
-f.updateAll({"A": 4.0, "B": 6.0, "C": 8.0})
-f.updateAll({"A": 3.0, "B": 5.0, "C": 8.0})
-f.updateAll({"A": 100.0, "B": 100.0, "C": 100.0})
+f = FibonacciMultiStock(10, 1, **{"tickers": ["A", "B", "C"]})
+f.update({"A": 3.0, "B": 5.0, "C": 8.0})
+f.update({"A": 4.0, "B": 6.0, "C": 9.0})
+f.update({"A": 5.0, "B": 7.0, "C": 8.0})
+f.update({"A": 6.0, "B": 8.0, "C": 8.0})
+f.update({"A": 7.0, "B": 9.0, "C": 8.0})
+f.update({"A": 8.0, "B": 10.0, "C": 8.0})
+f.update({"A": 9.0, "B": 11.0, "C": 8.0})
+f.update({"A": 8.0, "B": 10.0, "C": 8.0})
+f.update({"A": 7.0, "B": 9.0, "C": 8.0})
+f.update({"A": 6.0, "B": 8.0, "C": 8.0})
+f.update({"A": 5.0, "B": 7.0, "C": 8.0})
+f.update({"A": 4.0, "B": 6.0, "C": 8.0})
+f.update({"A": 3.0, "B": 5.0, "C": 8.0})
+f.update({"A": 100.0, "B": 100.0, "C": 100.0})
 print(f.bands)
 print(f.orders)
 """
