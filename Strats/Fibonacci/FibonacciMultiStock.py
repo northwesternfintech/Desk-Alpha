@@ -2,7 +2,7 @@
 import collections
 import math
 
-#Very simple single-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
+#Very simple multi-stock template. We will be generating these to get started with a simple strategy, and then generalizing it outward.
 class FibonacciMultiStock():
     def __init__(self, scope = 900, ordersWhenHitsBand = 1, **kwargs):
         #How many ticks back we should look when creating retracement
