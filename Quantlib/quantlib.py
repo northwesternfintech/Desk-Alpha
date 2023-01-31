@@ -4,7 +4,7 @@ class QuantLib:
 
     def variance(self,lst):
         """
-        Takes in a list of real numbers and returns their variance or 0 if an empty list is provided. 
+        Takes in a list of real numbers and returns the population variance or 0 if an empty list is provided. 
         """
         if lst is None or lst == []:
             return 0
