@@ -13,7 +13,7 @@ class QuantLib:
             if not isinstance(num, (int, float)):
                 raise "Expected only real numbers in input list"
             mu += num
-        mu = mu/num
+        mu = mu/len(lst)
         var = 0
         for num in lst:
             var += (num - mu)**2
