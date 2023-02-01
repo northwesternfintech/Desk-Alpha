@@ -5,6 +5,9 @@ from collections import defaultdict
 
 #Single-stock template for EMA strategy
 
+def def_dict():
+  return ()
+
 class EMAMultiStock():
   """
   Multi-stock template for overlapping EMA strategy
@@ -15,7 +18,7 @@ class EMAMultiStock():
     Version of init if we have no previous data
     @type allStockTickers: list
     """
-    self.data = defaultdict({})
+    self.data = defaultdict(def_dict)
     for stock in kwargs["tickers"]:
       self.data[stock]["price"] = 0
       self.data[stock]["time"] = time.time()
