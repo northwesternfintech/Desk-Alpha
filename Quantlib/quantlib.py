@@ -11,7 +11,7 @@ class QuantLib:
         mu = 0
         for num in lst:
             if not isinstance(num, (int, float)):
-                raise "Expected only real numbers in input list"
+                raise ValueError("Expected only real numbers in input list")
             mu += num
         mu = mu/len(lst)
         var = 0

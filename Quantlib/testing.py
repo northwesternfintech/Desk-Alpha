@@ -18,8 +18,8 @@ class TestAdd(unittest.TestCase):
 
     def test_variance_error(self):
         ql = QuantLib()
-        self.assertRaises(Exception, ql.variance, [None])
-        self.assertRaises(Exception, ql.variance, [1,2,"3"])
+        self.assertRaises(ValueError, ql.variance, [None])
+        self.assertRaises(ValueError, ql.variance, [1,2,"3"])
 
 
 if __name__ == '__main__':
