@@ -19,3 +19,22 @@ class QuantLib:
             var += (num - mu)**2
         var = var/len(lst)
         return var
+
+    def ema(data, period, smoothing=2):
+        if len(data) < period:
+            raise ValueError("Not enough data for calculation!")
+    
+        if period < 1:
+            raise ValueError("Period cannot be negative!")
+
+        if smoothing <= 0:
+            raise ValueError("Invalid Smoothing Value (Must be > 0)!")
+    
+        ema_list = []
+    
+        k = smoothing / (period + 1)
+        ema_list.append(sum(data[:period]) / period)
+        for i in range(period, len(data)):
+            ema_list.append(data[i] * k + ema_list[-1] * (1 - k))
+    
+        return ema_list, ema_list[-1]
