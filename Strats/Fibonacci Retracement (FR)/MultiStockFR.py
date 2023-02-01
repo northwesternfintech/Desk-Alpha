@@ -7,7 +7,7 @@ class FibonacciRetracementStrategy():
   A strategy that uses Fibonacci retracement levels to determine support and resistance levels for multiple stocks.
   """
 
-  def __init__(self,metrics, **kwargs):
+  def __init__(self, metrics, **kwargs):
     """
     Metrics - the actual information you need to track. If this is a specific algorithm, you can hard-code it and remove that argument.
     Initvalues - the initial values of your arguments.

@@ -13,7 +13,7 @@ class FibonacciRetracementSingleStock():
     Metrics - the actual information you need to track.
     Initvalues - the initial values of your arguments.
     """
-    self.data = zip(metrics,initvalues)
+    self.data = zip(metrics, initvalues)
     self.time = time.time()
     self.orders = []
     self.ticks = 0
