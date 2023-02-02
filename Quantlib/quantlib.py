@@ -38,3 +38,9 @@ class QuantLib:
             ema_list.append(data[i] * k + ema_list[-1] * (1 - k))
     
         return ema_list, ema_list[-1]
+    
+    def BSM(self,call, stock, strike, interest, time, distribution):
+        """
+        """
+        pass
+
