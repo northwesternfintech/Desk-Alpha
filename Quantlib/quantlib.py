@@ -53,4 +53,9 @@ class QuantLib:
 
         return sma_list, sma_list[-1]
 
+    def BSM(self,call, stock, strike, interest, time, distribution):
+        """
+        """
+        pass
+
 
