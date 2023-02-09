@@ -90,3 +90,23 @@ class QuantLib:
             return N(-d2) * strike * np.exp(-risk_free * time) - N(-d1) * spot
         else:
             raise TypeError("Invalid option type!")
+        
+    def sharpe(self, risk_free, strat_return, returnstd):
+        """
+        Sharpe ratio calculator.
+        - Inputs:
+            - risk_free: risk-free interest rate (type = <class 'float'>)
+            - strat_return: strategy return rate (type = <class 'float'>)
+            - returnstd: standard deviation of the excess return rate (type = <class 'float'>)
+                - Note that excess return = strategy return - risk-free interest rate
+        - Outputs:
+            - calculated sharpe ratio of strategy (type = <class 'float'>)
+        """
+        if risk_free < 0:
+            warnings.warn(f"Note: Entered Negative risk-free interest rate: {risk_free}")
+        if strat_return < risk_free:
+            raise ValueError(f"LMAO Give up and put your money into S&P...really.")
+        if returnstd <= 0:
+            raise ValueError(f"Note: Entered negative or zero standard deviation: {returnstd}")
+
+        return (strat_return - risk_free) / returnstd
