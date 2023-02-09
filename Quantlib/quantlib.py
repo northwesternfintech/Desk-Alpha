@@ -90,5 +90,3 @@ class QuantLib:
             return N(-d2) * strike * np.exp(-risk_free * time) - N(-d1) * spot
         else:
             raise TypeError("Invalid option type!")
-        
-        
