@@ -42,6 +42,7 @@ class StochasticOscillator():
     self.L14 = {} # Dictionary of ticker (string) - L14 (list) pairs
     self.H14 = {} # Dictionary of ticker (string) - H14 (list) pairs
     self.closing_price = {} # Dictionary of ticker (string) - price (float) pairs
+    self.cutoff = (0.2, 0.8)
   
 def get_data(self):
   return self.data
@@ -105,14 +106,14 @@ def update_stock(self, newdata):
     self.closing_price[ticker] = newdata["Closing Price"]
 
     K = calculate_stochastic_oscillator(self.L14[ticker], self.H14[ticker], newdata["Closing Price"])
-    if K < 0.2:
+    if K < self.cutoff[0]:
       self.orders[ticker].append("BUY")
-    elif K > 0.8:
+    elif K > self.tickers[1]:
       self.orders[ticker].append("SELL")
 
 
 
-def update(self, newdata):
+def update_all(self, newdata):
     """
     updates stock logic for all stocks.
     returns a dictionary of orders in the format {ticker : list_of_orders}
