@@ -67,62 +67,65 @@ def set_ticks(self, new_tick):
 
 
 def clear_orders_stock(self, ticker):
-    """
-    Clears all current orders and logs relevant information.
-    """
-    print(f"Trashing %d all orders", len(self.orders))
-    self.orders[ticker] = []
+  """
+  Clears all current orders and logs relevant information.
+  """
+  length = len(self.orders)
+  # print(f"Trashing all orders of length {len(self.orders)} \n")
+  print(f"Trashing all orders of length {length} \n")
+  # print("Trashing all orders")
+  self.orders[ticker] = []
 
 
 
 def calculate_stochastic_oscillator(self, L14, H14, price):
-    """
-    Calculates RSI for a given stock given L14, H14, and price
-    """
-    K = (price - min(L14)) / (max(H14) - min(L14)) * 100
-    return K
+  """
+  Calculates RSI for a given stock given L14, H14, and price
+  """
+  K = (price - min(L14)) / (max(H14) - min(L14)) * 100
+  return K
     
 
 
 def update_stock(self, newdata):
-    """
-    Will be called on every tick to update the algorithm state and output buys/sells.
-    """
-    ticker = newdata["Ticker"]
-    self.clear_orders_stock(ticker)
-    self.data[ticker] = newdata
+  """
+  Will be called on every tick to update the algorithm state and output buys/sells.
+  """
+  ticker = newdata["Ticker"]
+  self.clear_orders_stock(ticker)
+  self.data[ticker] = newdata
 
-    # Update the lowest 14 price list
-    self.L14[ticker].append(newdata["Lowest Price"])
-    if len(self.L14[ticker]) > 14:
-      self.L14[ticker].pop(0)
-    
-    # Update the highest 14 price list
-    self.H14[ticker].append(newdata["Highest Price"])
-    if len(self.H14[ticker]) > 14:
-      self.H14[ticker].pop(0)
+  # Update the lowest 14 price list
+  self.L14[ticker].append(newdata["Lowest Price"])
+  if len(self.L14[ticker]) > 14:
+    self.L14[ticker].pop(0)
+  
+  # Update the highest 14 price list
+  self.H14[ticker].append(newdata["Highest Price"])
+  if len(self.H14[ticker]) > 14:
+    self.H14[ticker].pop(0)
 
-    # Update current price
-    self.closing_price[ticker] = newdata["Closing Price"]
+  # Update current price
+  self.closing_price[ticker] = newdata["Closing Price"]
 
-    K = calculate_stochastic_oscillator(self.L14[ticker], self.H14[ticker], newdata["Closing Price"])
-    if K < self.cutoff[0]:
-      self.orders[ticker].append("BUY")
-    elif K > self.tickers[1]:
-      self.orders[ticker].append("SELL")
+  K = self.calculate_stochastic_oscillator(self.L14[ticker], self.H14[ticker], newdata["Closing Price"])
+  if K < self.cutoff[0]:
+    self.orders[ticker].append("BUY")
+  elif K > self.tickers[1]:
+    self.orders[ticker].append("SELL")
 
 
 
-def update_all(self, newdata):
-    """
-    updates stock logic for all stocks.
-    returns a dictionary of orders in the format {ticker : list_of_orders}
-    """
-    self.ticks += 1
-    for ticker, stock_data in newdata:
-      self.update_stock(stock_data)
-    
-    return self.orders
+def update(self, newdata):
+  """
+  updates stock logic for all stocks.
+  returns a dictionary of orders in the format {ticker : list_of_orders}
+  """
+  self.ticks += 1
+  for ticker, stock_data in newdata:
+    self.update_stock(stock_data)
+  
+  return self.orders
 
 
 
